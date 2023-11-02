@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Create</title>
+</head>
+<body>
+
+    <h2>Contact Create</h2>
+
+    <form id="contactForm" action="http://localhost:8000/sendMessage" method="post">
+        <label for="firstName">First Name:</label><br>
+        <input type="text" id="firstName" name="firstName"><br><br>
+        <label for="lastName">Last Name:</label><br>
+        <input type="text" id="lastName" name="lastName"><br><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const hapikey = 'pat-na1-c1996c9f-02f7-45db-9a9c-b937ae588ff4';
+            const serverUrl = 'http://localhost:8000';
+
+            const checkContactUrl = `${serverUrl}/checkContact`;
+            const mergeContactUrl = `${serverUrl}/mergeContact`;
+            const sendEmailUrl = `${serverUrl}/sendEmail`;
+            const sendMessageUrl = `${serverUrl}/sendMessage`;
+
+            try {
+                const sendMessageResponse = await fetch(sendMessageUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ firstName, lastName }),
+                });
+
+                const sendMessageData = await sendMessageResponse.json();
+                console.log(sendMessageData);
+            } catch (error) {
+                console.error('Error:', error.message);
+            }
+        });
+    </script>
+
+</body>
+
+</html>
